@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_N 1001
+
+int graph[MAX_N][MAX_N];
+int visited[MAX_N]; 
+
+void dfs(int v, int N) {
+    visited[v] = 1;
+    for (int i = 1; i <= N; i++) {
+        if (graph[v][i] && !visited[i]) {
+            dfs(i, N);
+        }
+    }
+}
+
+int main() {
+    int N, M;
+    scanf("%d %d", &N, &M);
+
+    for (int i = 0; i < MAX_N; i++) {
+        for (int j = 0; j < MAX_N; j++) {
+            graph[i][j] = 0;
+        }
+    }
+
+    for (int i = 0; i < M; i++) {
+        int u, v;
+        scanf("%d %d", &u, &v);
+        graph[u][v] = graph[v][u] = 1; 
+    }
+
+    int components = 0;
+    for (int i = 1; i <= N; i++) {
+        if (!visited[i]) {
+            dfs(i, N); 
+            components++; 
+        }
+    }
+    printf("%d\n", components);
+
+    return 0;
+}
